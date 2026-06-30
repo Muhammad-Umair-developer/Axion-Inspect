@@ -10,7 +10,7 @@ export default function Partners() {
   const columns = t('partners.columns')
 
   return (
-    <section className="scroll-mt-24 bg-surface-200 py-24 lg:py-28">
+    <section className="scroll-mt-24 bg-surface-200 py-24 lg:py-28 overflow-hidden">
       <div className="container-px">
         <motion.div
           variants={reveal}

@@ -14,6 +14,8 @@ export default function Contact() {
   const [form, setForm] = useState(EMPTY)
   const [errors, setErrors] = useState({})
   const [sent, setSent] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [submitError, setSubmitError] = useState(null)
 
   const update = (e) => {
     const { name, value } = e.target
@@ -32,13 +34,38 @@ export default function Contact() {
     return next
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
     const next = validate()
     setErrors(next)
     if (Object.keys(next).length === 0) {
-      setSent(true) // no backend — simulate success
-      setForm(EMPTY)
+      setLoading(true)
+      setSubmitError(null)
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: `${form.firstName} ${form.lastName}`.trim(),
+            email: form.email,
+            subject: 'New Contact Form Submission',
+            message: `Phone: ${form.phone || 'N/A'}\n\nMessage:\n${form.message}`,
+          }),
+        })
+        const data = await response.json()
+        if (response.ok && data.success) {
+          setSent(true)
+          setForm(EMPTY)
+        } else {
+          setSubmitError(data.error || 'Failed to send message.')
+        }
+      } catch (err) {
+        setSubmitError('An error occurred. Please try again.')
+      } finally {
+        setLoading(false)
+      }
     }
   }
 
@@ -49,17 +76,17 @@ export default function Contact() {
 
   const DETAILS = [
     { icon: Mail, label: d.emailLabel, value: d.email, href: `mailto:${d.email}` },
-    { icon: Phone, label: d.phoneLabel, value: d.phone, href: 'tel:+390101234567' },
+    { icon: Phone, label: d.phoneLabel, value: d.phone, href: 'tel:+393495403226' },
     {
       icon: MapPin,
       label: d.addressLabel,
       value: d.address,
-      href: 'https://maps.google.com/?q=Genova,Italy',
+      href: 'https://maps.google.com/?q=Via Luca Combiaso 5, Genova, Italy 16142',
     },
   ]
 
   return (
-    <section id="contact" className="scroll-mt-24 bg-white py-24 lg:py-32">
+    <section id="contact" className="scroll-mt-24 bg-white py-24 lg:py-32 overflow-hidden">
       <div className="container-px">
         <motion.div
           variants={reveal}
@@ -236,13 +263,18 @@ export default function Contact() {
                   )}
                 </div>
 
+                {submitError && (
+                  <p className="text-sm text-red-500 text-center">{submitError}</p>
+                )}
+
                 <motion.button
                   type="submit"
-                  className="btn-primary w-full"
-                  whileHover={{ y: -2 }}
+                  disabled={loading}
+                  className={`btn-primary w-full ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                  whileHover={loading ? {} : { y: -2 }}
                   transition={hoverTransition}
                 >
-                  {f.submit} <Send className="h-4 w-4" />
+                  {loading ? 'Sending...' : f.submit} {!loading && <Send className="h-4 w-4" />}
                 </motion.button>
               </form>
             )}

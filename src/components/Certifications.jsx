@@ -10,7 +10,7 @@ export default function Certifications() {
   const items = t('certifications.items')
 
   return (
-    <section className="scroll-mt-24 bg-white py-24 lg:py-28">
+    <section className="scroll-mt-24 bg-white py-24 lg:py-28 overflow-hidden">
       <div className="container-px">
         <motion.div
           variants={reveal}

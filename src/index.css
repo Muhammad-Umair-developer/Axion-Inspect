@@ -10,7 +10,7 @@
   }
 
   body {
-    @apply bg-surface-100 font-sans text-midnight-500 antialiased;
+    @apply bg-surface-100 font-sans text-midnight-500 antialiased overflow-x-hidden w-full max-w-full;
   }
 
   h1,

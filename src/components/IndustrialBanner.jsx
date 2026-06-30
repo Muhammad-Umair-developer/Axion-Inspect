@@ -43,7 +43,7 @@ export default function IndustrialBanner() {
             {t('impact.body')}
           </motion.p>
 
-          <motion.div variants={reveal} className="mt-10 flex flex-wrap gap-4">
+          <motion.div variants={reveal} className="mt-10 flex flex-col sm:flex-row items-start gap-4">
             <motion.a
               href="#contact"
               className="btn-primary"

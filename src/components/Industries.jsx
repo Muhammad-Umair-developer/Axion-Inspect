@@ -19,7 +19,7 @@ export default function Industries() {
   const items = t('industries.items')
 
   return (
-    <section id="industries" className="scroll-mt-24 bg-surface-200 py-24 lg:py-28">
+    <section id="industries" className="scroll-mt-24 bg-surface-200 py-24 lg:py-28 overflow-hidden">
       <div className="container-px">
         <motion.div
           variants={reveal}

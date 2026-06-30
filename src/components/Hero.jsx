@@ -76,7 +76,7 @@ export default function Hero() {
             {t('hero.body')}
           </motion.p>
 
-          <motion.div variants={reveal} className="mt-9 flex flex-wrap gap-4">
+          <motion.div variants={reveal} className="mt-9 flex flex-col sm:flex-row items-start gap-4">
             <motion.a
               href="#contact"
               className="btn-primary group"

@@ -34,7 +34,7 @@ export default function Services() {
   const linkLabel = t('services.linkLabel')
 
   return (
-    <section id="services" className="scroll-mt-24 bg-white py-24 lg:py-32">
+    <section id="services" className="scroll-mt-24 bg-white py-24 lg:py-32 overflow-hidden">
       <div className="container-px">
         {/* Heading */}
         <motion.div

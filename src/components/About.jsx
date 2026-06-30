@@ -8,7 +8,7 @@ export default function About() {
   const points = t('about.points')
 
   return (
-    <section id="about" className="scroll-mt-24 bg-white py-24 lg:py-32">
+    <section id="about" className="scroll-mt-24 bg-white py-24 lg:py-32 overflow-hidden">
       <div className="container-px grid gap-14 lg:grid-cols-2 lg:gap-20">
         {/* Left — typography hook + image */}
         <motion.div

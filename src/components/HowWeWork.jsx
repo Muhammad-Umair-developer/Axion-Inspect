@@ -35,7 +35,7 @@ export default function HowWeWork() {
   const stages = t('howWeWork.stages')
 
   return (
-    <section className="scroll-mt-24 bg-surface-100 py-24 lg:py-32">
+    <section className="scroll-mt-24 bg-surface-100 py-24 lg:py-32 overflow-hidden">
       <div className="container-px">
         {/* Heading */}
         <motion.div
