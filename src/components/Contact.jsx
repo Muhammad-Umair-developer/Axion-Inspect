@@ -132,7 +132,7 @@ export default function Contact() {
                       <span className="block text-xs font-semibold uppercase tracking-wider text-midnight-300">
                         {label}
                       </span>
-                      <span className="mt-1 block font-medium text-midnight-800">
+                      <span className="mt-1 block font-medium text-midnight-800 text-sm sm:text-base break-all">
                         {value}
                       </span>
                     </span>
