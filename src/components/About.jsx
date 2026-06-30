@@ -52,8 +52,8 @@ export default function About() {
             whileHover={{ y: -6, transition: { duration: 0.4, ease: 'easeOut' } }}
           >
             <motion.img
-              src="/images/dimensional-measurement.jpeg"
-              alt="Inspector performing dimensional weld measurement"
+              src="/images/industrial-facility.jpeg"
+              alt="Night-time industrial facility skyline across Europe"
               className="aspect-[4/3] w-full object-cover"
               whileHover={{ scale: 1.05, transition: { duration: 0.4, ease: 'easeOut' } }}
             />

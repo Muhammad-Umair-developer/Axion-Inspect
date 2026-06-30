@@ -1,13 +1,6 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, ShieldCheck, Phone } from 'lucide-react'
 
-const STATS = [
-  { value: '300+', label: 'Projects Completed' },
-  { value: '30+', label: 'Expert Inspectors' },
-  { value: '10+', label: 'Years Experience' },
-  { value: '99%', label: 'Client Satisfaction' },
-]
-
 // Shared slide-up variant for staggered on-load reveals
 const slideUp = {
   hidden: { opacity: 0, y: 28 },
@@ -67,21 +60,6 @@ export default function Hero() {
               <Phone className="h-4 w-4" /> Contact Us
             </a>
           </motion.div>
-
-          {/* Stats */}
-          <motion.dl
-            variants={slideUp}
-            className="mt-12 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-navy-50 pt-8 sm:grid-cols-4"
-          >
-            {STATS.map((stat) => (
-              <div key={stat.label}>
-                <dt className="font-display text-3xl font-bold text-primary sm:text-4xl">
-                  {stat.value}
-                </dt>
-                <dd className="mt-1 text-sm text-navy-300">{stat.label}</dd>
-              </div>
-            ))}
-          </motion.dl>
         </motion.div>
 
         {/* Right — graphic */}
