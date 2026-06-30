@@ -58,6 +58,16 @@ export default function Navbar() {
     }
   }, [open])
 
+  const handleLinkClick = (e, targetId) => {
+    setOpen(false)
+    setTimeout(() => {
+      const el = document.getElementById(targetId)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' })
+      }
+    }, 100)
+  }
+
   return (
     <motion.header
       initial={{ y: -80, opacity: 0 }}
@@ -174,7 +184,7 @@ export default function Navbar() {
                   >
                     <a
                       href={`#${key}`}
-                      onClick={() => setOpen(false)}
+                      onClick={(e) => handleLinkClick(e, key)}
                       className="block rounded-xl px-4 py-3 text-base font-medium text-midnight-700 transition-colors hover:bg-midnight-50 hover:text-midnight-900"
                     >
                       {t(`nav.links.${key}`)}
@@ -190,7 +200,7 @@ export default function Navbar() {
                   <LangSwitcher idSuffix="-m" />
                   <a
                     href="#contact"
-                    onClick={() => setOpen(false)}
+                    onClick={(e) => handleLinkClick(e, 'contact')}
                     className="btn-primary flex-1"
                   >
                     {t('nav.cta')}
