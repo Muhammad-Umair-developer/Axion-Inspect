@@ -1,164 +1,178 @@
 import { motion } from 'framer-motion'
+import { ArrowRight, ClipboardCheck, Timer, Users } from 'lucide-react'
+import { useLang } from '../i18n/LanguageContext'
 import {
-  ClipboardCheck,
-  Timer,
-  Gauge,
-  ScanLine,
-  Flame,
-  Paintbrush,
-  PackageCheck,
-  Users,
-  Network,
-} from 'lucide-react'
+  reveal,
+  staggerTight,
+  fromLeft,
+  fromRight,
+  inView,
+  EASE,
+  hoverTransition,
+} from '../lib/motion'
 
-const SERVICES = [
-  {
-    icon: ClipboardCheck,
-    title: 'Third-Party Inspection',
-    desc: 'Independent stage-wise inspections, manufacturing reviews and certification across the full project lifecycle.',
-  },
-  {
-    icon: Timer,
-    title: 'Expediting Services',
-    desc: 'Proactive timeline management and vendor-client coordination to keep deliveries on schedule.',
-  },
-  {
-    icon: Gauge,
-    title: 'Quality Audits',
-    desc: 'Thorough supplier evaluations, system audits and compliance analysis against international standards.',
-  },
-  {
-    icon: ScanLine,
-    title: 'Non-Destructive Testing',
-    desc: 'Advanced NDT methods — UT, RT, MT, PT and VT — performed by certified Level II/III technicians.',
-  },
-  {
-    icon: Flame,
-    title: 'Welding & Coating',
-    desc: 'WPQR review, welder qualification and coating verification to ensure structural integrity.',
-  },
-  {
-    icon: Paintbrush,
-    title: 'Painting Inspection',
-    desc: 'Surface preparation checks, DFT measurement and full coating-system verification.',
-  },
-  {
-    icon: PackageCheck,
-    title: 'Pre-Shipment Verification',
-    desc: 'Final product checks, packing and documentation review before dispatch from the vendor.',
-  },
-  {
-    icon: Users,
-    title: 'Technical Manpower',
-    desc: 'Certified inspectors and engineers for temporary or long-term on-site assignments.',
-  },
-  {
-    icon: Network,
-    title: 'Vendor Oversight',
-    desc: 'Supply-chain coordination and continuous progress monitoring across multiple vendors.',
-  },
+// Image-backed core services → alternating rows (indexes into services.items)
+const ROWS = [
+  { i: 2, img: '/images/inspection-audit.png' },
+  { i: 3, img: '/images/ndt-testing.jpeg' },
+  { i: 4, img: '/images/welding-inspection.jpeg' },
+  { i: 5, img: '/images/painting-inspection.png' },
+  { i: 6, img: '/images/dimensional-measurement.jpeg' },
+  { i: 8, img: '/images/vendor-oversight.png' },
 ]
 
-const PROJECTS = [
-  { src: '/images/ndt-testing.jpeg', label: 'Non-Destructive Testing' },
-  { src: '/images/dimensional-measurement.jpeg', label: 'Precision Measurement' },
-  { src: '/images/welding-inspection.jpeg', label: 'Welding Inspection' },
-  { src: '/images/painting-inspection.png', label: 'Painting Inspection' },
-  { src: '/images/vendor-oversight.png', label: 'Vendor Oversight' },
+// Remaining services (no dedicated photo) → compact supporting grid
+const GRID = [
+  { i: 0, icon: ClipboardCheck },
+  { i: 1, icon: Timer },
+  { i: 7, icon: Users },
 ]
-
-const grid = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } },
-}
-
-const card = {
-  hidden: { opacity: 0, y: 28 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-  },
-}
 
 export default function Services() {
+  const { t } = useLang()
+  const items = t('services.items')
+  const linkLabel = t('services.linkLabel')
+
   return (
-    <section id="services" className="scroll-mt-24 bg-navy-50/40 py-20 lg:py-28">
+    <section id="services" className="scroll-mt-24 bg-white py-24 lg:py-32">
       <div className="container-px">
         {/* Heading */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6 }}
+          variants={reveal}
+          initial="hidden"
+          whileInView="show"
+          viewport={inView}
           className="mx-auto max-w-2xl text-center"
         >
-          <span className="section-eyebrow">What We Do</span>
-          <h2 className="mt-5 font-display text-3xl font-extrabold text-navy sm:text-4xl lg:text-5xl">
-            Comprehensive Inspection Solutions
+          <span className="eyebrow">{t('services.eyebrow')}</span>
+          <h2 className="mt-5 font-display text-4xl font-bold tracking-tightest text-midnight-900 sm:text-5xl">
+            {t('services.title')}
           </h2>
-          <p className="mt-4 text-lg leading-relaxed text-navy-300">
-            A complete suite of independent inspection, testing and expediting
-            services — covering every stage from fabrication to final delivery.
+          <p className="mt-5 text-lg leading-relaxed text-midnight-400">
+            {t('services.body')}
           </p>
         </motion.div>
 
-        {/* Cards */}
-        <motion.div
-          variants={grid}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
-          className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
-        >
-          {SERVICES.map(({ icon: Icon, title, desc }) => (
-            <motion.article
-              key={title}
-              variants={card}
-              whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.4, ease: 'easeOut' } }}
-              className="group cursor-pointer overflow-hidden rounded-2xl border border-navy-50 bg-white p-7 shadow-card transition-[border-color,box-shadow] duration-300 hover:border-primary/30 hover:shadow-card-hover"
-            >
-              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
-                <Icon className="h-7 w-7" />
-              </div>
-              <h3 className="mt-5 font-display text-xl font-bold text-navy">
-                {title}
-              </h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-navy-300">
-                {desc}
-              </p>
-            </motion.article>
-          ))}
-        </motion.div>
+        {/* Alternating service rows */}
+        <div className="mt-20 space-y-20 lg:space-y-28">
+          {ROWS.map(({ i, img }, idx) => {
+            const svc = items[i]
+            const reversed = idx % 2 === 1
+            return (
+              <motion.div
+                key={svc.title}
+                initial="hidden"
+                whileInView="show"
+                viewport={inView}
+                className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16"
+              >
+                {/* Image */}
+                <motion.div
+                  variants={reversed ? fromRight : fromLeft}
+                  className={`relative ${reversed ? 'lg:order-2' : 'lg:order-1'}`}
+                >
+                  <div className="absolute -inset-3 -z-10 rounded-[2rem] bg-gradient-to-br from-accent/15 to-transparent blur-lg" />
+                  <motion.div
+                    className="cursor-pointer overflow-hidden rounded-[1.75rem] shadow-card ring-1 ring-midnight-100 transition-[box-shadow] duration-300 hover:shadow-glow hover:ring-2 hover:ring-accent/60"
+                    whileHover={{ y: -6, transition: hoverTransition }}
+                  >
+                    <motion.img
+                      src={img}
+                      alt={svc.title}
+                      className="aspect-[16/11] w-full object-cover"
+                      whileHover={{ scale: 1.05, transition: hoverTransition }}
+                    />
+                  </motion.div>
+                </motion.div>
 
-        {/* Real-world project thumbnails */}
-        <motion.div
-          variants={grid}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5"
-        >
-          {PROJECTS.map(({ src, label }) => (
-            <motion.figure
-              key={label}
-              variants={card}
-              whileHover={{ y: -6, transition: { duration: 0.4, ease: 'easeOut' } }}
-              className="group relative cursor-pointer overflow-hidden rounded-xl shadow-card"
-            >
-              <motion.img
-                src={src}
-                alt={label}
-                className="aspect-[4/3] w-full object-cover"
-                whileHover={{ scale: 1.05, transition: { duration: 0.4, ease: 'easeOut' } }}
-              />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy/85 via-navy/10 to-transparent" />
-              <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 p-3 text-xs font-semibold text-white sm:text-sm">
-                {label}
-              </figcaption>
-            </motion.figure>
-          ))}
-        </motion.div>
+                {/* Text */}
+                <motion.div
+                  variants={reversed ? fromLeft : fromRight}
+                  className={reversed ? 'lg:order-1' : 'lg:order-2'}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="h-px w-8 bg-accent" />
+                    <span className="text-xs font-semibold uppercase tracking-[0.22em] text-accent-700">
+                      Service {String(idx + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <h3 className="mt-5 font-display text-2xl font-bold tracking-tightest text-midnight-900 sm:text-3xl">
+                    {svc.title}
+                  </h3>
+                  <p className="mt-4 max-w-xl text-base leading-relaxed text-midnight-400">
+                    {svc.desc}
+                  </p>
+                  <a href="#contact" className="link-arrow group mt-7">
+                    {linkLabel}
+                    <motion.span className="inline-flex" whileHover={{ x: 4 }}>
+                      <ArrowRight className="h-4 w-4" />
+                    </motion.span>
+                  </a>
+                </motion.div>
+              </motion.div>
+            )
+          })}
+        </div>
+
+        {/* Supporting services grid */}
+        <div className="mt-24">
+          <motion.h3
+            variants={reveal}
+            initial="hidden"
+            whileInView="show"
+            viewport={inView}
+            className="text-center font-display text-sm font-semibold uppercase tracking-[0.22em] text-midnight-300"
+          >
+            {t('services.moreTitle')}
+          </motion.h3>
+          <motion.div
+            variants={staggerTight}
+            initial="hidden"
+            whileInView="show"
+            viewport={inView}
+            className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3"
+          >
+            {GRID.map(({ i, icon: Icon }) => {
+              const svc = items[i]
+              return (
+                <motion.article
+                  key={svc.title}
+                  variants={{
+                    hidden: { opacity: 0, y: 28 },
+                    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+                  }}
+                  whileHover={{ y: -8, transition: hoverTransition }}
+                  className="group cursor-pointer overflow-hidden rounded-2xl border border-midnight-700 bg-midnight-900 shadow-card transition-[border-color,box-shadow] duration-300 hover:border-accent/60 hover:shadow-glow"
+                >
+                  {/* Terminal title bar */}
+                  <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3">
+                    <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-amber-400/70" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-accent" />
+                    <span className="ml-2 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">
+                      module
+                    </span>
+                  </div>
+                  <div className="p-7">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/5 text-accent ring-1 ring-white/10 transition-colors duration-300 group-hover:bg-accent group-hover:text-midnight-900">
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <h4 className="mt-6 font-display text-lg font-bold text-white">
+                      {svc.title}
+                    </h4>
+                    <p className="mt-2 text-sm leading-relaxed text-white/60">
+                      {svc.desc}
+                    </p>
+                    <div className="mt-5 flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-accent/80">
+                      <span className="h-1.5 w-1.5 animate-accent-pulse rounded-full bg-accent" />
+                      active
+                    </div>
+                  </div>
+                </motion.article>
+              )
+            })}
+          </motion.div>
+        </div>
       </div>
     </section>
   )

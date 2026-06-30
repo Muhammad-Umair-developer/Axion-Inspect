@@ -1,73 +1,64 @@
 import { motion } from 'framer-motion'
 import { Award, BadgeCheck, ShieldCheck, FileBadge, Stamp, Globe2 } from 'lucide-react'
+import { useLang } from '../i18n/LanguageContext'
+import { reveal, staggerTight, inView, EASE, hoverTransition } from '../lib/motion'
 
-const CERTS = [
-  { icon: Award, code: 'ISO 9001', label: 'Quality Management' },
-  { icon: ShieldCheck, code: 'ISO 45001', label: 'Occupational Health & Safety' },
-  { icon: Globe2, code: 'ISO 14001', label: 'Environmental Management' },
-  { icon: BadgeCheck, code: 'EN ISO 9712', label: 'NDT Personnel Certification' },
-  { icon: Stamp, code: 'PED 2014/68/EU', label: 'Pressure Equipment Directive' },
-  { icon: FileBadge, code: 'API / ASNT', label: 'Industry Accreditation' },
-]
-
-const grid = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
-}
-
-const badge = {
-  hidden: { opacity: 0, y: 20 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
-  },
-}
+const ICONS = [Award, ShieldCheck, Globe2, BadgeCheck, Stamp, FileBadge]
 
 export default function Certifications() {
+  const { t } = useLang()
+  const items = t('certifications.items')
+
   return (
-    <section className="scroll-mt-24 bg-navy-50/40 py-20 lg:py-24">
+    <section className="scroll-mt-24 bg-white py-24 lg:py-28">
       <div className="container-px">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6 }}
+          variants={reveal}
+          initial="hidden"
+          whileInView="show"
+          viewport={inView}
           className="mx-auto max-w-2xl text-center"
         >
-          <span className="section-eyebrow">Accredited &amp; Compliant</span>
-          <h2 className="mt-5 font-display text-3xl font-extrabold text-navy sm:text-4xl">
-            Technical Certifications &amp; Standards
+          <span className="eyebrow">{t('certifications.eyebrow')}</span>
+          <h2 className="mt-5 font-display text-4xl font-bold tracking-tightest text-midnight-900 sm:text-5xl">
+            {t('certifications.title')}
           </h2>
-          <p className="mt-4 text-lg leading-relaxed text-navy-300">
-            Our work is backed by internationally recognised certifications and
-            full regulatory compliance.
+          <p className="mt-5 text-lg leading-relaxed text-midnight-400">
+            {t('certifications.body')}
           </p>
         </motion.div>
 
         <motion.div
-          variants={grid}
+          variants={staggerTight}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6"
+          viewport={inView}
+          className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6"
         >
-          {CERTS.map(({ icon: Icon, code, label }) => (
-            <motion.div
-              key={code}
-              variants={badge}
-              whileHover={{ y: -6, scale: 1.03, transition: { duration: 0.4, ease: 'easeOut' } }}
-              className="group flex cursor-pointer flex-col items-center overflow-hidden rounded-2xl border border-navy-50 bg-white p-6 text-center shadow-card transition-[border-color,box-shadow] duration-300 hover:border-primary/30 hover:shadow-card-hover"
-            >
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
-                <Icon className="h-7 w-7" />
-              </div>
-              <div className="mt-4 font-display text-base font-bold text-navy">
-                {code}
-              </div>
-              <div className="mt-1 text-xs leading-snug text-navy-300">{label}</div>
-            </motion.div>
-          ))}
+          {items.map((cert, i) => {
+            const Icon = ICONS[i]
+            return (
+              <motion.div
+                key={cert.code}
+                variants={{
+                  hidden: { opacity: 0, y: 24 },
+                  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } },
+                }}
+                whileHover={{ y: -6, transition: hoverTransition }}
+                className="group flex cursor-pointer flex-col items-center overflow-hidden rounded-2xl border border-surface-300 bg-surface-100 p-6 text-center transition-colors duration-300 hover:border-accent/40"
+              >
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-midnight-900 text-accent transition-colors duration-300 group-hover:bg-accent group-hover:text-midnight-900">
+                  <Icon className="h-7 w-7" />
+                </div>
+                <div className="mt-4 font-display text-base font-bold text-midnight-900">
+                  {cert.code}
+                </div>
+                <div className="mt-1 text-xs leading-snug text-midnight-400">
+                  {cert.label}
+                </div>
+              </motion.div>
+            )
+          })}
         </motion.div>
       </div>
     </section>

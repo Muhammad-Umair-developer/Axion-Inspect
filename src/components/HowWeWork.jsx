@@ -6,42 +6,20 @@ import {
   FileCheck2,
   ShieldCheck,
 } from 'lucide-react'
+import { useLang } from '../i18n/LanguageContext'
+import {
+  reveal,
+  revealFast,
+  stagger,
+  fromLeft,
+  inView,
+  EASE,
+  hoverTransition,
+} from '../lib/motion'
 
-// Row 1 — the four-step excellence process
-const STEPS = [
-  {
-    icon: ClipboardList,
-    title: 'Requirement Analysis',
-    desc: 'We review specifications, codes and client expectations to define a precise inspection scope.',
-  },
-  {
-    icon: CalendarClock,
-    title: 'Inspection Planning',
-    desc: 'An Inspection & Test Plan (ITP) is prepared with clear hold points and a mobilization schedule.',
-  },
-  {
-    icon: HardHat,
-    title: 'On-Site Execution',
-    desc: 'Certified inspectors perform stage-wise inspection, witnessing and non-destructive testing.',
-  },
-  {
-    icon: FileCheck2,
-    title: 'Reporting & Certification',
-    desc: 'Detailed reports, compliance records and certificates are delivered for full traceability.',
-  },
-]
+const STEP_ICONS = [ClipboardList, CalendarClock, HardHat, FileCheck2]
 
-// Row 2 — verification stages arranged around the central hub
-const STAGES = [
-  'Document Review',
-  'Material Check',
-  'In-Process Inspection',
-  'Witness Testing',
-  'Final Verification',
-  'Reporting & Sign-off',
-]
-
-// Pre-computed positions around a circle (viewBox/percentage units, center 50/50)
+// Pre-computed positions around a circle (percentage units, center 50/50)
 const NODE_POS = [
   { left: '50%', top: '5%' },
   { left: '89%', top: '27%' },
@@ -51,137 +29,122 @@ const NODE_POS = [
   { left: '11%', top: '27%' },
 ]
 
-const row = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
-}
-
-const fade = {
-  hidden: { opacity: 0, y: 28 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-  },
-}
-
 export default function HowWeWork() {
+  const { t } = useLang()
+  const steps = t('howWeWork.steps')
+  const stages = t('howWeWork.stages')
+
   return (
-    <section className="scroll-mt-24 bg-white py-20 lg:py-28">
+    <section className="scroll-mt-24 bg-surface-100 py-24 lg:py-32">
       <div className="container-px">
-        {/* Section heading */}
+        {/* Heading */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6 }}
+          variants={reveal}
+          initial="hidden"
+          whileInView="show"
+          viewport={inView}
           className="mx-auto max-w-2xl text-center"
         >
-          <span className="section-eyebrow">How We Work</span>
-          <h2 className="mt-5 font-display text-3xl font-extrabold text-navy sm:text-4xl lg:text-5xl">
-            A Proven Inspection Workflow
+          <span className="eyebrow">{t('howWeWork.eyebrow')}</span>
+          <h2 className="mt-5 font-display text-4xl font-bold tracking-tightest text-midnight-900 sm:text-5xl">
+            {t('howWeWork.title')}
           </h2>
-          <p className="mt-4 text-lg leading-relaxed text-navy-300">
-            A structured, transparent process that delivers consistent,
-            audit-ready results on every engagement.
+          <p className="mt-5 text-lg leading-relaxed text-midnight-400">
+            {t('howWeWork.body')}
           </p>
         </motion.div>
 
         {/* ── Row 1: illustration left, process text right ── */}
-        <div className="mt-16 grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="mt-20 grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <motion.div
-            initial={{ opacity: 0, x: -28 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="cursor-pointer overflow-hidden rounded-3xl bg-primary/5 p-6 shadow-card sm:p-8"
-            whileHover={{ y: -6, transition: { duration: 0.4, ease: 'easeOut' } }}
+            variants={fromLeft}
+            initial="hidden"
+            whileInView="show"
+            viewport={inView}
+            className="cursor-pointer overflow-hidden rounded-[1.75rem] bg-white p-6 shadow-card ring-1 ring-midnight-100 sm:p-8"
+            whileHover={{ y: -6, transition: hoverTransition }}
           >
             <motion.img
               src="/images/inspection-audit.png"
-              alt="Inspection and audit excellence illustration"
+              alt={t('howWeWork.illustrationAlt')}
               className="w-full rounded-2xl"
-              whileHover={{ scale: 1.05, transition: { duration: 0.4, ease: 'easeOut' } }}
+              whileHover={{ scale: 1.05, transition: hoverTransition }}
             />
           </motion.div>
 
           <motion.div
-            variants={row}
+            variants={stagger}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={inView}
           >
             <motion.h3
-              variants={fade}
-              className="font-display text-2xl font-bold text-navy sm:text-3xl"
+              variants={revealFast}
+              className="font-display text-2xl font-bold tracking-tightest text-midnight-900 sm:text-3xl"
             >
-              Inspection &amp; Audit Excellence
+              {t('howWeWork.row1Title')}
             </motion.h3>
-            <motion.p variants={fade} className="mt-3 text-navy-300">
-              From first review to final certification, every engagement follows
-              a disciplined four-step path designed for full traceability.
+            <motion.p variants={revealFast} className="mt-3 text-midnight-400">
+              {t('howWeWork.row1Body')}
             </motion.p>
 
             <ul className="mt-7 space-y-5">
-              {STEPS.map(({ icon: Icon, title, desc }, i) => (
-                <motion.li key={title} variants={fade} className="flex gap-4">
-                  <span className="relative flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-primary text-white">
-                    <Icon className="h-5 w-5" />
-                    <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-[11px] font-bold text-navy">
-                      {i + 1}
+              {steps.map((step, i) => {
+                const Icon = STEP_ICONS[i]
+                return (
+                  <motion.li key={step.title} variants={revealFast} className="flex gap-4">
+                    <span className="relative flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-midnight-900 text-accent">
+                      <Icon className="h-5 w-5" />
+                      <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-[11px] font-bold text-midnight-900">
+                        {i + 1}
+                      </span>
                     </span>
-                  </span>
-                  <div>
-                    <h4 className="font-display text-base font-semibold text-navy">
-                      {title}
-                    </h4>
-                    <p className="mt-0.5 text-sm text-navy-300">{desc}</p>
-                  </div>
-                </motion.li>
-              ))}
+                    <div>
+                      <h4 className="font-display text-base font-semibold text-midnight-900">
+                        {step.title}
+                      </h4>
+                      <p className="mt-0.5 text-sm text-midnight-400">{step.desc}</p>
+                    </div>
+                  </motion.li>
+                )
+              })}
             </ul>
           </motion.div>
         </div>
 
-        {/* ── Row 2: orange central-hub verification diagram ── */}
+        {/* ── Row 2: central-hub verification diagram ── */}
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-24 rounded-3xl bg-orange-50 px-6 py-14 sm:px-10"
+          variants={reveal}
+          initial="hidden"
+          whileInView="show"
+          viewport={inView}
+          className="mt-24 rounded-[2rem] bg-midnight-900 px-6 py-16 sm:px-10"
         >
           <div className="mx-auto max-w-2xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full bg-orange-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-orange-600">
-              Quality Assurance
-            </span>
-            <h3 className="mt-4 font-display text-2xl font-bold text-navy sm:text-3xl">
-              Pre-Aligned Verification Process
+            <span className="eyebrow-light">{t('howWeWork.row2Eyebrow')}</span>
+            <h3 className="mt-4 font-display text-2xl font-bold tracking-tightest text-white sm:text-3xl">
+              {t('howWeWork.row2Title')}
             </h3>
-            <p className="mt-3 text-navy-300">
-              Every checkpoint feeds a single, centrally coordinated verification
-              loop — keeping inspection, testing and reporting in lockstep.
-            </p>
+            <p className="mt-3 text-white/65">{t('howWeWork.row2Body')}</p>
           </div>
 
-          {/* Mobile: simple numbered list */}
+          {/* Mobile: numbered list */}
           <ol className="mx-auto mt-10 grid max-w-md gap-3 md:hidden">
-            {STAGES.map((stage, i) => (
+            {stages.map((stage, i) => (
               <li
                 key={stage}
-                className="flex items-center gap-3 rounded-xl border border-orange-200 bg-white p-3"
+                className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-3"
               >
-                <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-orange-500 text-sm font-bold text-white">
+                <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-midnight-900">
                   {i + 1}
                 </span>
-                <span className="font-medium text-navy">{stage}</span>
+                <span className="font-medium text-white">{stage}</span>
               </li>
             ))}
           </ol>
 
-          {/* Desktop: circular hub diagram */}
+          {/* Desktop: circular hub */}
           <div className="relative mx-auto mt-12 hidden aspect-square w-full max-w-xl md:block">
-            {/* Connector lines + dashed ring */}
             <svg
               viewBox="0 0 100 100"
               preserveAspectRatio="none"
@@ -192,7 +155,8 @@ export default function HowWeWork() {
                 cy="50"
                 r="44"
                 fill="none"
-                stroke="#fb923c"
+                stroke="#00E0C6"
+                strokeOpacity="0.45"
                 strokeWidth="0.4"
                 strokeDasharray="2 2"
               />
@@ -203,31 +167,30 @@ export default function HowWeWork() {
                   y1="50"
                   x2={parseFloat(p.left)}
                   y2={parseFloat(p.top)}
-                  stroke="#fdba74"
+                  stroke="#00E0C6"
+                  strokeOpacity="0.3"
                   strokeWidth="0.5"
                 />
               ))}
             </svg>
 
-            {/* Central hub */}
-            <div className="absolute left-1/2 top-1/2 z-10 flex h-32 w-32 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-orange-500 text-center text-white shadow-xl shadow-orange-500/30">
+            <div className="absolute left-1/2 top-1/2 z-10 flex h-32 w-32 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-accent text-center text-midnight-900 shadow-glow">
               <ShieldCheck className="h-8 w-8" />
               <span className="mt-1 px-2 font-display text-sm font-bold leading-tight">
-                Central Verification
+                {t('howWeWork.hubLabel')}
               </span>
             </div>
 
-            {/* Surrounding stage nodes */}
-            {STAGES.map((stage, i) => (
+            {stages.map((stage, i) => (
               <div
                 key={stage}
                 className="absolute z-10 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center"
                 style={{ left: NODE_POS[i].left, top: NODE_POS[i].top }}
               >
-                <span className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-orange-400 bg-white font-display text-lg font-bold text-orange-600 shadow-md">
+                <span className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-accent/50 bg-midnight-800 font-display text-lg font-bold text-accent shadow-md">
                   {i + 1}
                 </span>
-                <span className="mt-2 w-24 text-center text-xs font-semibold text-navy">
+                <span className="mt-2 w-24 text-center text-xs font-semibold text-white/80">
                   {stage}
                 </span>
               </div>

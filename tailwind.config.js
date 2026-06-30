@@ -4,84 +4,74 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Bright corporate blue — primary brand action color
-        primary: {
-          DEFAULT: '#0066FF',
-          50: '#E6F0FF',
-          100: '#CCE0FF',
-          200: '#99C2FF',
-          300: '#66A3FF',
-          400: '#3385FF',
-          500: '#0066FF',
-          600: '#0052CC',
-          700: '#003D99',
-          800: '#002966',
-          900: '#001433',
+        // Deep midnight navy / charcoal — backgrounds, headings, text hierarchy
+        midnight: {
+          DEFAULT: '#0B1220',
+          50: '#F3F5F8',
+          100: '#E4E8EF',
+          200: '#C3CBD9',
+          300: '#9AA6BC',
+          400: '#5E6E8C',
+          500: '#33425E',
+          600: '#1E2B43',
+          700: '#131C2E',
+          800: '#0B1220',
+          900: '#070B14',
         },
-        // Deep industrial blues — backgrounds, surfaces, headings
-        navy: {
-          DEFAULT: '#0A1A2F',
-          50: '#E7EBF0',
-          100: '#C2CDDA',
-          200: '#8295AD',
-          300: '#3D5A80',
-          400: '#1E3A5F',
-          500: '#142B47',
-          600: '#0F2236',
-          700: '#0A1A2F',
-          800: '#071321',
-          900: '#040B14',
-        },
-        // Bright accent gold/yellow — highlights, accents, badges
+        // Electric Teal — primary accent, used sparingly for emphasis
         accent: {
-          DEFAULT: '#FFB800',
-          50: '#FFF8E6',
-          100: '#FFEFBF',
-          200: '#FFE08A',
-          300: '#FFD24D',
-          400: '#FFC520',
-          500: '#FFB800',
-          600: '#CC9300',
-          700: '#996E00',
-          800: '#664A00',
-          900: '#332500',
+          DEFAULT: '#00E0C6',
+          50: '#E6FFFB',
+          100: '#C2FFF6',
+          200: '#85F7EA',
+          300: '#47EEDC',
+          400: '#16E0CB',
+          500: '#00E0C6',
+          600: '#00B7A3',
+          700: '#018C7E',
+          800: '#0A6F66',
+          900: '#0C5A54',
+        },
+        // Clean off-whites & cool greys for layered section depth
+        surface: {
+          DEFAULT: '#FFFFFF',
+          50: '#FFFFFF',
+          100: '#F7F9FB',
+          200: '#EEF2F6',
+          300: '#E3E9F0',
+          400: '#D2DAE4',
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
-        display: ['Poppins', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['"Space Grotesk"', 'Inter', 'system-ui', 'sans-serif'],
       },
-      container: {
-        center: true,
-        padding: {
-          DEFAULT: '1.25rem',
-          lg: '2rem',
-        },
-        screens: {
-          '2xl': '1280px',
-        },
+      letterSpacing: {
+        tightest: '-0.04em',
+      },
+      maxWidth: {
+        content: '80rem',
       },
       boxShadow: {
-        card: '0 10px 40px -12px rgba(10, 26, 47, 0.18)',
-        'card-hover': '0 20px 50px -12px rgba(0, 102, 255, 0.25)',
+        soft: '0 10px 40px -18px rgba(11, 18, 32, 0.22)',
+        card: '0 16px 50px -24px rgba(11, 18, 32, 0.28)',
+        glass: '0 8px 32px -10px rgba(11, 18, 32, 0.25)',
+        glow: '0 14px 50px -12px rgba(0, 224, 198, 0.45)',
       },
       backgroundImage: {
-        'hero-grid':
-          'linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)',
+        'grid-faint':
+          'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)',
+        'cool-fade':
+          'linear-gradient(180deg, #FFFFFF 0%, #F7F9FB 55%, #EEF2F6 100%)',
       },
       keyframes: {
-        'fade-up': {
-          '0%': { opacity: '0', transform: 'translateY(20px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-10px)' },
+        'accent-pulse': {
+          '0%, 100%': { opacity: '0.5' },
+          '50%': { opacity: '1' },
         },
       },
       animation: {
-        'fade-up': 'fade-up 0.6s ease-out forwards',
-        float: 'float 6s ease-in-out infinite',
+        'accent-pulse': 'accent-pulse 3s ease-in-out infinite',
       },
     },
   },

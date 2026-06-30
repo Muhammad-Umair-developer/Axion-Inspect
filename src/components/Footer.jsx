@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin } from 'lucide-react'
+import { useLang } from '../i18n/LanguageContext'
+import { stagger, revealFast, inView } from '../lib/motion'
 
-// lucide-react dropped brand glyphs, so use inline SVGs for recognizable socials
+// lucide-react dropped brand glyphs — inline SVGs for recognizable socials
 const LinkedInIcon = (props) => (
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
     <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V24h-4V8zm7.5 0h3.8v2.2h.05c.53-1 1.83-2.2 3.77-2.2 4.03 0 4.78 2.65 4.78 6.1V24h-4v-7.1c0-1.7-.03-3.9-2.37-3.9-2.37 0-2.73 1.85-2.73 3.77V24h-4V8z" />
@@ -18,139 +20,128 @@ const FacebookIcon = (props) => (
   </svg>
 )
 
-const QUICK_LINKS = [
-  { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
-  { label: 'Services', href: '#services' },
-  { label: 'Industries', href: '#industries' },
-  { label: 'Contact', href: '#contact' },
-]
-
-const SERVICE_LINKS = [
-  'Third-Party Inspection',
-  'Expediting Services',
-  'Quality Audits',
-  'Non-Destructive Testing',
-  'Vendor Oversight',
-]
-
 const SOCIALS = [
   { icon: LinkedInIcon, href: '#', label: 'LinkedIn' },
   { icon: XIcon, href: '#', label: 'X' },
   { icon: FacebookIcon, href: '#', label: 'Facebook' },
 ]
 
+const LINK_KEYS = ['home', 'about', 'services', 'industries', 'contact']
+
 export default function Footer() {
+  const { t } = useLang()
+  const quickLinks = t('footer.quickLinks')
+  const serviceLinks = t('footer.serviceLinks')
+
   return (
-    <footer className="bg-navy-900 text-white/70">
+    <footer className="bg-midnight-900 text-white/65">
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.6 }}
+        variants={stagger}
+        initial="hidden"
+        whileInView="show"
+        viewport={inView}
         className="container-px grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-4"
       >
         {/* Brand */}
-        <div>
+        <motion.div variants={revealFast}>
           <div className="flex items-center gap-3">
             <img
               src="/images/axion-logo-hero.png"
-              alt="Axion Inspect SRL"
-              className="h-11 w-11 rounded-lg object-cover"
+              alt={t('nav.brand')}
+              className="h-11 w-11 rounded-xl object-cover ring-1 ring-white/10"
             />
             <div className="font-display text-lg font-bold leading-tight text-white">
-              AXION <span className="text-primary">INSPECT</span>
-              <span className="block text-[10px] font-medium uppercase tracking-[0.2em] text-white/40">
-                Anywhere in Europe
+              {t('nav.brand')}
+              <span className="block text-[10px] font-medium uppercase tracking-[0.22em] text-white/40">
+                {t('nav.tagline')}
               </span>
             </div>
           </div>
-          <p className="mt-5 text-sm leading-relaxed">
-            European third-party inspection leader — ensuring quality, compliance
-            and on-time delivery across the continent.
-          </p>
+          <p className="mt-5 text-sm leading-relaxed">{t('footer.blurb')}</p>
           <div className="mt-6 flex gap-3">
             {SOCIALS.map(({ icon: Icon, href, label }) => (
               <a
                 key={label}
                 href={href}
                 aria-label={label}
-                className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/5 text-white/70 transition-colors hover:bg-primary hover:text-white"
+                className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-white/70 transition-colors hover:bg-accent hover:text-midnight-900"
               >
                 <Icon className="h-5 w-5" />
               </a>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Quick links */}
-        <div>
+        <motion.div variants={revealFast}>
           <h4 className="font-display text-sm font-bold uppercase tracking-wider text-white">
-            Quick Links
+            {t('footer.quickLinksTitle')}
           </h4>
           <ul className="mt-5 space-y-3 text-sm">
-            {QUICK_LINKS.map((l) => (
-              <li key={l.label}>
-                <a href={l.href} className="transition-colors hover:text-accent">
-                  {l.label}
+            {quickLinks.map((label, i) => (
+              <li key={label}>
+                <a href={`#${LINK_KEYS[i]}`} className="transition-colors hover:text-accent">
+                  {label}
                 </a>
               </li>
             ))}
           </ul>
-        </div>
+        </motion.div>
 
         {/* Services */}
-        <div>
+        <motion.div variants={revealFast}>
           <h4 className="font-display text-sm font-bold uppercase tracking-wider text-white">
-            Services
+            {t('footer.servicesTitle')}
           </h4>
           <ul className="mt-5 space-y-3 text-sm">
-            {SERVICE_LINKS.map((s) => (
-              <li key={s}>
+            {serviceLinks.map((label) => (
+              <li key={label}>
                 <a href="#services" className="transition-colors hover:text-accent">
-                  {s}
+                  {label}
                 </a>
               </li>
             ))}
           </ul>
-        </div>
+        </motion.div>
 
         {/* Contact */}
-        <div>
+        <motion.div variants={revealFast}>
           <h4 className="font-display text-sm font-bold uppercase tracking-wider text-white">
-            Contact
+            {t('footer.contactTitle')}
           </h4>
           <ul className="mt-5 space-y-4 text-sm">
             <li className="flex items-start gap-3">
-              <Mail className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" />
-              <a href="mailto:info@axioninspect.com" className="hover:text-accent">
-                srmech.electinspection16@gmail.com
+              <Mail className="mt-0.5 h-4 w-4 flex-shrink-0 text-accent" />
+              <a href={`mailto:${t('contact.details.email')}`} className="hover:text-accent">
+                {t('contact.details.email')}
               </a>
             </li>
             <li className="flex items-start gap-3">
-              <Phone className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" />
+              <Phone className="mt-0.5 h-4 w-4 flex-shrink-0 text-accent" />
               <a href="tel:+390101234567" className="hover:text-accent">
-                +39 349 540 3226
+                {t('contact.details.phone')}
               </a>
             </li>
             <li className="flex items-start gap-3">
-              <MapPin className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" />
-              <span>Via Luca Combiaso 5, 16142 Genova, Italy</span>
+              <MapPin className="mt-0.5 h-4 w-4 flex-shrink-0 text-accent" />
+              <span>{t('contact.details.address')}</span>
             </li>
           </ul>
-        </div>
+        </motion.div>
       </motion.div>
 
       {/* Bottom bar */}
       <div className="border-t border-white/10">
         <div className="container-px flex flex-col items-center justify-between gap-4 py-6 text-sm sm:flex-row">
-          <p>© {new Date().getFullYear()} AXION INSPECT SRL. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} {t('nav.brand')}. {t('footer.rights')}
+          </p>
           <div className="flex gap-6">
             <a href="#" className="transition-colors hover:text-accent">
-              Privacy Policy
+              {t('footer.privacy')}
             </a>
             <a href="#" className="transition-colors hover:text-accent">
-              Terms of Service
+              {t('footer.terms')}
             </a>
           </div>
         </div>

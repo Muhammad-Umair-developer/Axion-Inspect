@@ -5,76 +5,93 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    /* Offset anchor targets so they aren't hidden under the fixed navbar */
     scroll-padding-top: 6rem;
     -webkit-text-size-adjust: 100%;
   }
 
   body {
-    @apply bg-white font-sans text-navy antialiased;
+    @apply bg-surface-100 font-sans text-midnight-500 antialiased;
   }
 
   h1,
   h2,
   h3,
   h4 {
-    @apply font-display text-navy;
+    @apply font-display font-bold tracking-tightest text-midnight-800;
     text-wrap: balance;
   }
 
   ::selection {
-    @apply bg-primary/20 text-navy;
+    @apply bg-accent/25 text-midnight-900;
   }
 }
 
 @layer components {
   .container-px {
-    @apply mx-auto w-full max-w-7xl px-5 lg:px-8;
+    @apply mx-auto w-full max-w-content px-6 sm:px-8 md:px-12 lg:px-16;
   }
 
+  /* Glassmorphic sticky header */
+  .glass {
+    @apply border-b border-white/50 bg-white/70 backdrop-blur-xl;
+  }
+  .glass-dark {
+    @apply border-b border-white/10 bg-midnight-900/70 backdrop-blur-xl;
+  }
+
+  /* Buttons — modern pill shapes */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold tracking-wide transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2;
   }
-
   .btn-primary {
-    @apply btn bg-primary text-white shadow-lg shadow-primary/25 hover:-translate-y-0.5 hover:bg-primary-600 hover:shadow-primary/40;
+    @apply btn bg-accent text-midnight-900 shadow-glow hover:bg-accent-400;
+  }
+  .btn-dark {
+    @apply btn bg-midnight-800 text-white hover:bg-midnight-700;
+  }
+  .btn-ghost {
+    @apply btn border border-midnight-200 bg-transparent text-midnight-700 hover:border-midnight-800 hover:text-midnight-900;
+  }
+  .btn-ghost-light {
+    @apply btn border border-white/30 bg-transparent text-white hover:border-accent hover:text-accent;
   }
 
-  .btn-accent {
-    @apply btn bg-accent text-navy hover:-translate-y-0.5 hover:bg-accent-400;
+  /* Eyebrow / metadata label */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-accent-700;
+  }
+  .eyebrow-light {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-accent-400;
   }
 
-  .btn-outline {
-    @apply btn border border-navy-200 bg-transparent text-navy hover:border-primary hover:text-primary;
-  }
-
-  .section-eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary;
+  /* Animated text-link CTA */
+  .link-arrow {
+    @apply inline-flex items-center gap-2 text-sm font-semibold text-midnight-800 transition-colors hover:text-accent-700;
   }
 }
 
 @layer utilities {
   .text-gradient {
-    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-accent-500 to-accent-300 bg-clip-text text-transparent;
   }
 }
 
-/* Custom scrollbar — subtle industrial styling */
+/* Custom scrollbar — subtle, on-brand */
 ::-webkit-scrollbar {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #eef2f6;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e3a5f;
+  background: #1e2b43;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #0066ff;
+  background: #00b7a3;
 }
 
-/* Respect users who prefer reduced motion */
+/* Respect reduced-motion preferences */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
